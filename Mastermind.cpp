@@ -1,25 +1,17 @@
-#ifndef MASTERMIND
-#define MASTERMIND
-
-#include <iostream>
-#include "console.h"
-#include "combat.h"
-#include <conio.h>
-#include <time.h>
-using namespace JadedHoboConsole;
+#include "Mastermind.hpp"
+#include "Globals.h"
+#include "Combat.h"
+//using namespace JadedHoboConsole;
 using std::cout;
 using std::cin;
 using std::endl;
 using std::string;
+using namespace Globals;
 
 
 
-class mastermind
-{ 
 
-public:  
-
-bool Start()
+bool Mastermind::Start()
 {
      
 int guess=1; 
@@ -37,7 +29,8 @@ fgt.Randomize();
 	{
 		cout<<"There are five numbers and three pegs. The object of the game is to guess which\nnumber is on which peg.";
 		cout<<fg_white<<"\n\n  Press Any Key To Continue...\n\n\n"<<fg_cyan;
-		_getch();
+		fflush(stdin);
+		getchar();
 	}
 	cout<<endl; 
 
@@ -91,6 +84,4 @@ fgt.Randomize();
 	return false;
     } 	 
     	
-};	
 
-#endif

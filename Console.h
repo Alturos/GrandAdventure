@@ -10,10 +10,15 @@
 //------------------------------------------------------------------"includes"--
 #include <iostream>
 #include <iomanip>
-#include <windows.h>
+//#include <windows.h>
 
 namespace JadedHoboConsole
 {
+
+    typedef uint16_t WORD;
+    typedef uint32_t DWORD;
+    typedef void** HANDLE;
+
     static const WORD bgMask( BACKGROUND_BLUE      | 
                               BACKGROUND_GREEN     | 
                               BACKGROUND_RED       | 

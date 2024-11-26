@@ -1,3 +1,4 @@
+#pragma once
 //Combat Engine.h
 //Preprocessor
 #ifndef Combat_H_INCLUDED

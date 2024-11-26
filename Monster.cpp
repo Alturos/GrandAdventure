@@ -3,9 +3,11 @@
 #include "Player.h"
 #include <iostream>
 #include <fstream>
-#include "console.h"
+#include "Globals.h"
+//#include "console.h"
 using namespace std;
-using namespace JadedHoboConsole;
+//using namespace JadedHoboConsole;
+using namespace Globals;
 
 bool Monster::Save(string FileName)
 {

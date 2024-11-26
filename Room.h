@@ -11,5 +11,4 @@ class Room
       int Map;
       bool Door;
 
-}
-
+};

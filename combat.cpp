@@ -1,8 +1,10 @@
 #include "Combat.h"
 #include <iostream>
-#include "console.h"
-#include <conio.h>
-using namespace JadedHoboConsole;
+#include "Globals.h"
+//#include "console.h"
+//#include <conio.h>
+//using namespace JadedHoboConsole;
+using namespace Globals;
 using std::cout;
 using std::cin;
 using std::endl;
@@ -193,7 +195,7 @@ void Combat::PlayerTurn(Player &pc)
        {
          cout<<"You flee from the monster!"<<endl;
          _getch();
-         system("cls");
+         system("clear");
          Fled = true;
          TurnOver = true;
        }
@@ -219,7 +221,7 @@ void Combat::PlayerTurn(Player &pc)
      }
      else if(opt[0] == 'U')
      {
-        system("cls");
+        system("clear");
         cout<<"("<<fg_white<<"E"<<fg_cyan<<")ther    ("<<pc.Ethers<<")"<<endl; 
 		cout<<"("<<fg_white<<"P"<<fg_cyan<<")otion   ("<<pc.Potions<<")"<<endl; 
 	    cout<<"("<<fg_white<<"R"<<fg_cyan<<")eturn"<<endl;
@@ -235,14 +237,14 @@ void Combat::PlayerTurn(Player &pc)
                    cout<<"You don't need one."<<endl;
                    cout<<"Press A Key..."<<endl;
                    _getch();
-                   system("cls");
+                   system("clear");
                  }
                  else if(pc.Ethers<=0)
                  {
                    cout<<"You don't have any"<<endl;
                    cout<<"Press A Key..."<<endl;
                    _getch();
-                   system("cls");
+                   system("clear");
                  }
                  else
                  { 
@@ -260,14 +262,14 @@ void Combat::PlayerTurn(Player &pc)
                    cout<<"You don't need one."<<endl;
                    cout<<"Press A Key..."<<endl;
                    _getch();
-                   system("cls");
+                   system("clear");
                  }
                  else if(pc.Potions<=0)
                  {
                    cout<<"You don't have any"<<endl;
                    cout<<"Press A Key..."<<endl;
                    _getch();
-                   system("cls");
+                   system("clear");
                  }
                  else
                  { 
@@ -280,12 +282,12 @@ void Combat::PlayerTurn(Player &pc)
                }
                else if(opt[0] == 'R')
                {
-                 system("cls");
+                 system("clear");
                }   
      }
      else if(opt[0] == 'M')
      {
-         system("cls");
+         system("clear");
          cout<<"("<<fg_white<<"A"<<fg_cyan<<")   Quake     "<<pc.Magic.quake<<"/10   4MP"<<endl; 
 		 cout<<"("<<fg_white<<"B"<<fg_cyan<<")   Fire      "<<pc.Magic.fire<<"/10   6MP"<<endl; 
 		 cout<<"("<<fg_white<<"C"<<fg_cyan<<")   Bolt      "<<pc.Magic.bolt<<"/10   8MP"<<endl; 
@@ -312,9 +314,9 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = Damage;
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<pc.MP<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<pc.MP<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'B')
@@ -329,9 +331,9 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = Damage;
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'C')
@@ -346,9 +348,9 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = Damage;
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'D')
@@ -363,9 +365,9 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = Damage;
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'E')
@@ -382,11 +384,11 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = 0;
                    TurnOver = true;
                    }
-                   else{cout<<"You're at full health already!"<<endl; _getch(); system("cls");}
+                   else{cout<<"You're at full health already!"<<endl; _getch(); system("clear");}
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'F')
@@ -403,9 +405,9 @@ void Combat::PlayerTurn(Player &pc)
                    if(pc.HP>=pc.HPMax){pc.HP=pc.HPMax;}
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'G')
@@ -422,9 +424,9 @@ void Combat::PlayerTurn(Player &pc)
                    if(pc.MP>=pc.MPMax){pc.MP=pc.MPMax;}
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
            
            else if(opt[0] == 'H')
@@ -439,18 +441,18 @@ void Combat::PlayerTurn(Player &pc)
                    pc.Damage = Damage;
                    TurnOver = true;
                 }
-                else{cout<<"Not Enough MP!"<<endl; _getch(); system("cls");}
+                else{cout<<"Not Enough MP!"<<endl; _getch(); system("clear");}
               }
-              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("cls");}         
+              else{cout<<"You Don't Have That Spell!"<<endl; _getch(); system("clear");}         
            }
-           else{system("cls");}
+           else{system("clear");}
      }
      else
          {
           cout<<"You Can't Do That! Try Again."<<endl;
           cout<<"Press Any Key"<<endl;
           _getch();
-          system("cls");
+          system("clear");
 
          } 
     }while(!TurnOver); 
@@ -460,7 +462,7 @@ void Combat::LevelUp(Player &pc)
 {
     cout<<fg_yellow<<"You Have Gained a Level!"<<fg_cyan<<endl;
     _getch();
-    system("cls");
+    system("clear");
     int points = 0;
     bool done = false;
     do
@@ -483,7 +485,7 @@ void Combat::LevelUp(Player &pc)
         cin>>opt;
         choice = stoi(opt);
         cout<<fg_cyan;
-        system("cls");
+        system("clear");
         if(choice<=points){HP += choice; points -= choice;}
         //else if(){points = -1;}
         else{ points = -1;}
@@ -497,7 +499,7 @@ void Combat::LevelUp(Player &pc)
          cin>>opt;
          choice = stoi(opt);
          cout<<fg_cyan;
-         system("cls");
+         system("clear");
          if((int)choice<=points){MP += choice; points -= choice;}
          else{ points = -1;}
         }
@@ -511,7 +513,7 @@ void Combat::LevelUp(Player &pc)
          cin>>opt;
          choice = stoi(opt);
          cout<<fg_cyan;
-         system("cls");
+         system("clear");
          if((int)choice<=points){AP += choice; points -= choice;}
         }
         if(!points)
@@ -535,7 +537,7 @@ void Combat::LevelUp(Player &pc)
           pc.level++;        
           done = true;
          }
-          system("cls");
+          system("clear");
         }
         if(points){cout<<"You must use all points, and only all points. Please try again."<<endl;
         _getch();
@@ -554,7 +556,7 @@ bool Combat::Start(Player &PC, Monster &mstr, bool escape)
   do
   {   
       _getch();
-      system("cls");
+      system("clear");
       cout<<"Name:    "<<fg_white<<PC.Name<<fg_cyan<<endl;
       cout<<"HP:      "<<fg_white<<PC.HP<<fg_cyan<<"/"<<PC.HPMax<<endl;
       cout<<"MP:      "<<fg_white<<PC.MP<<fg_cyan<<"/"<<PC.MPMax<<endl;

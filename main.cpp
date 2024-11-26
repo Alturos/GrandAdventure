@@ -1,17 +1,31 @@
 #include <cstdlib>
 #include <iostream>
-#include <fmod.h>
-#include "mastermind.cpp"
-#include "console.h"
-
-using namespace JadedHoboConsole;
-using namespace std;
-
+#include <fmod.hpp>
+#include <fmod_errors.h>
+#include <fmod_common.h>
 #include "Combat.h"
 #include "Quests.h"
+#include "Mastermind.hpp"
+#include "Globals.h"
+#include "Legacy/battle.h"
+//#include "console.h"
+
+//using namespace JadedHoboConsole;
+using namespace std;
+using namespace Globals;
+
+
+FMOD_RESULT result;
+
+
+FMOD::System *soundSystem = NULL;
+FMOD::SoundGroup *musicGroup = 0;
+FMOD::ChannelGroup *channelGroup = 0;
+FMOD::Sound *Battle = 0, *Quest = 0, *Opening = 0, *KBattle = 0, *pop = 0;
+FMOD::Channel *battleChannel = 0, *questChannel = 0, *openingChannel = 0, *kBattleChannel = 0, *popChannel=0;
+
 
 bool Shop = false;
-FMUSIC_MODULE *Battle = 0, *Quest = 0, *Opening = 0, *KBattle = 0, *pop = 0;
 
 void StartGame(Player &PC);
 
@@ -20,7 +34,7 @@ void StartGame(Player &PC);
 //TODO: Rework Monster engine to actually have levels make sense (Increased difficulty, but sanely, on second playthroughs)
 //TODO: Fix all spelling and grammar errors
 //TODO: Do colouring in Quest 8
-//TODO: Balance tweaks (some things are WAY too hard, others too easy)
+//TODO: Balance tweaks (some things are WAY to hard, others too easy)
 //TODO: Apply learned C# OOP principles to make this code not stupid.
 //TODO: Rework Mastermind
 //TODO: Rework Combat UI, and UI in general and, indeed, the quest engine.
@@ -37,32 +51,52 @@ void StartGame(Player &PC);
 
 int main(int argc, char *argv[])
 {
+     MFight();
+     smallperson();
+// if (FSOUND_GetVersion() < FMOD_VERSION)
+//     {
+//         cout<< "Error : You are using the wrong DLL version!  You should be using FMOD %.02f\n";
+//         cout<< FMOD_VERSION;
+//         exit(1);
+//     }
+// if (!FSOUND_Init(44100, 32, 0))
+// 	{
+// 		cout<<fg_red<<FSOUND_GetError();
+// 		exit(1);
+// 	}
+     result = FMOD::System_Create(&soundSystem);      // Create the main system object.
+     if (result != FMOD_OK)
+     {
+          printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+          exit(-1);
+     }
 
-if (FSOUND_GetVersion() < FMOD_VERSION)
-    {
-        cout<< "Error : You are using the wrong DLL version!  You should be using FMOD %.02f\n";
-        cout<< FMOD_VERSION;
-        exit(1);
-    }
-if (!FSOUND_Init(44100, 32, 0))
-	{
-		cout<<fg_red<<FSOUND_GetError();
-		exit(1);
-	}
+     result = soundSystem->init(512, FMOD_INIT_NORMAL, 0);    // Initialize FMOD.
+     if (result != FMOD_OK)
+     {
+          printf("FMOD error! (%d) %s\n", result, FMOD_ErrorString(result));
+          exit(-1);
+     }
 
-Battle = FMUSIC_LoadSong("music/battle.mid");
-Quest = FMUSIC_LoadSong("music/quest.mid");
-Opening = FMUSIC_LoadSong("music/opener.mid");
-KBattle = FMUSIC_LoadSong("music/kbattle.mid");
-pop = FMUSIC_LoadSong("music/pop.mid");
+     soundSystem->createSound("music/battle.mid", FMOD_LOOP_NORMAL, 0, &Battle);
+     soundSystem->createSound("music/quest.mid", FMOD_LOOP_NORMAL, 0, &Quest);
+     soundSystem->createSound("music/opener.mid", FMOD_LOOP_NORMAL, 0, &Opening);
+     soundSystem->createSound("music/kbattle.mid", FMOD_LOOP_NORMAL, 0, &KBattle);
+     soundSystem->createSound("music/pop.mid", FMOD_LOOP_NORMAL, 0, &pop);
+     soundSystem->createSoundGroup("Music", &musicGroup);
+     soundSystem->createChannelGroup("MusicChannels", &channelGroup);
 
-
+     Battle->setSoundGroup(musicGroup);
+     Quest->setSoundGroup(musicGroup);
+     Opening->setSoundGroup(musicGroup);
+     KBattle->setSoundGroup(musicGroup);
+     pop->setSoundGroup(musicGroup);
 
 
     string opt;
     Player *PC = new Player;
     bool Exit = false;
-    FMUSIC_PlaySong(Opening);
+    soundSystem->playSound(Opening, channelGroup, false, &openingChannel);
  do{
     cout<<fg_cyan<<"Welcome To Grand Adventure, Would you like to start a ("<<fg_white<<"N"<<fg_cyan<<")ew Game or ("<<fg_white<<"L"<<fg_cyan<<")oad a\nsaved game?\n";
     cin>>opt;
@@ -84,13 +118,13 @@ pop = FMUSIC_LoadSong("music/pop.mid");
 
     else if(opt == "Mastermind")
     {
-         mastermind game;
+         Mastermind game;
          game.Start();
     }
 
     else if(opt == "MonsterMash")
     {
-      FMUSIC_PlaySong(pop);
+      soundSystem->playSound(pop, channelGroup, false, &popChannel);
       Monster mstr;
       string name, opt;
       bool magic;
@@ -100,7 +134,7 @@ pop = FMUSIC_LoadSong("music/pop.mid");
       cout<<"This is a Front-End mainly for the design stage of GA-OOP."<<endl;
       cout<<"This Tool is where Monsters are created and then saved to .mon files."<<endl;
       system("pause");
-      system("cls");
+      system("clear");
       cout<<"Please enter the monsters name: ";
       cin>>name;
       cout<<"\n\nIs this monster a mage? ";
@@ -132,7 +166,7 @@ pop = FMUSIC_LoadSong("music/pop.mid");
       mstr.Init(name, magic, HD, MD, Lvl, GP, Pot, Eth, xp, attack, attackmod, hit);
       mstr.Save(("Mons/"+name));
       system("pause");
-      system("cls");
+      system("clear");
       cout<<fg_yellow;
       cout<<"NAME:      "<<fg_white<<mstr.Name<<fg_yellow<<endl;
       cout<<"HP:        "<<fg_white<<mstr.HP<<"/"<<mstr.HPMax<<fg_yellow<<endl;
@@ -153,7 +187,7 @@ pop = FMUSIC_LoadSong("music/pop.mid");
 
     else if(opt == "MonsterView")
     {
-      FMUSIC_PlaySong(pop);
+      soundSystem->playSound(pop, channelGroup, false, &popChannel);
       cout<<"Choose a monster to view."<<endl;
       cin>>opt;
       Monster mstr;
@@ -175,7 +209,7 @@ pop = FMUSIC_LoadSong("music/pop.mid");
 
     else if(opt == "TestFight")
     {
-         FMUSIC_PlaySong(Battle);
+         soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
          Combat fgt;
          Monster mstr;
          int num = 0;

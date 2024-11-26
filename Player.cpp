@@ -1,9 +1,11 @@
 #include "Player.h"
+#include "Globals.h"
 #include <iostream>
 #include <fstream>
-#include "console.h"
+//#include "console.h"
 using namespace std;
-using namespace JadedHoboConsole;
+//using namespace JadedHoboConsole;
+using namespace Globals;
 
 
 
@@ -84,19 +86,16 @@ void Player::Create()
   cin>>choice;
   choice[0] = toupper(choice[0]);
   if((choice[0] == 'F') || (choice[0] == 'G')||(choice[0] == 'S')){choice = "Female";}
-  else{choice = "Male  ";}
+  else{choice = "Male";}
   for(int i=0; i<7; i++){Gender[i] = choice[i];}
 
-
-
-
   cout<<fg_magenta;
-  system("cls");
+  system("clear");
   cout<<"Ok, now you must chose your character class."<<endl;
   cout<<fg_magenta;
   //cout<<"Keep in mind that you must use ALL of your points and ONLY all of your points."<<endl;
   //system("pause");
-  //system("cls");
+  //system("clear");
   bool done = false;
   do{
   cout<<"You have two options:\n"<<endl;
@@ -110,7 +109,7 @@ void Player::Create()
   {
          case 'A':
               {
-                  system("cls");
+                  system("clear");
 
 
                   MaxAtt = 60;
@@ -135,7 +134,7 @@ void Player::Create()
               }
          case 'B':
               {
-                  system("cls");
+                  system("clear");
 
 
 
@@ -162,16 +161,16 @@ void Player::Create()
          /*
          case 'C':
                {
-                  system("cls");
+                  system("clear");
                   cout<<"\nYou have chosen to creat a character from scratch. Typically for people who are\nfarmiliar with the system."<<endl;
                   done = true;
                   break;
                }
          */
-         default: system("cls");
+         default: system("clear");
                   cout<<"\nYou must choose A or B only."<<endl;
                   system("pause");
-                  system("cls");
+                  system("clear");
                   done = false;
   }
   }while(!done);

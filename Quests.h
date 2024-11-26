@@ -1,9 +1,16 @@
-#include<fmod.h>
+#pragma once
+#include <fmod.hpp>
 #include "Combat.h"
 #include "Player.h"
-#include "Mastermind.cpp"
+#include "Mastermind.hpp"
+#include "Globals.h"
+using namespace Globals;
 extern bool Shop;
-extern FMUSIC_MODULE *Battle, *Quest, *Opening, *KBattle, *pop;
+extern FMOD::SoundGroup *musicGroup;
+extern FMOD::ChannelGroup *channelGroup;
+extern FMOD::System *soundSystem;
+extern FMOD::Channel *battleChannel, *questChannel, *openingChannel, *kBattleChannel, *popChannel;
+extern FMOD::Sound *Battle, *Quest, *Opening, *KBattle, *pop;
 void Quest1(Player &PC)
 {
   string direction;
@@ -19,9 +26,10 @@ void Quest1(Player &PC)
 
   //cout<<clr;
   cout<<fg_white<<"\n\n\nPress Any Key To Continue"<<fg_cyan;
-  _getch();
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+  std::fflush(stdin);
+  std::getchar();
+channelGroup->stop();
+soundSystem->playSound(Quest, channelGroup, false, &questChannel);
 //Quest 1, Story Block 1
 cout<<"\n\n   A wizard knocks on your door and you open it to let him in. The wizard"<<endl;
 cout<<"looks distressed and has sweat beaded all down his face."<<endl;
@@ -30,7 +38,8 @@ cout<<"stole my jewel of magic recharge. I can`t cast a single spell until it`s"
 cout<<"returned! PLEASE HELP ME, PLEASE!' With that the poor wizard runs off bawling."<<endl;
 cout<<"\nWith a sense of duty you pick up your sword and set out on a magical journey."<<endl;
 cout<<fg_white<<"\n\n\nPress Any Key To Continue"<<fg_cyan;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 cout<<clr;
 //Quest 1, Story Block 2
 cout<<"  As you walk down the path towards the Forsaken Cave, you see a patrol of Orcs"<<endl;
@@ -39,21 +48,24 @@ cout<<"the gods of the sky realm that they don`t see you. Twenty minutes later, 
 cout<<"after the Orc Battalion passes, you emerge from your hiding place covered with"<<endl;
 cout<<"sweat 'Thank the gods' you say to yourself and you continue on your way."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 1, Story Block 3
 cout<<"Suddenly a small pathetic Orc runs up to you with its axe raised. It squeals"<<endl;
 cout<<"like a pig being taken to the slaughter. You raise your sword and prepare for"<<endl;
 cout<<"the attack!"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue"<<fg_cyan<<endl;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Fight Block 1
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
         fgt.Start(PC, Goblin, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue\n\n"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 if(PC.Alive){
 //Quest 1, Story Block 4
 cout<<clr;
@@ -70,15 +82,17 @@ cout<<"and light the pine pitch using your flint and shard of steel. you hear a 
 cout<<"coming from behind a bush. You backstep just in time not to be caught in the"<<endl;
 cout<<"fangs of a black spider! "<<endl;
 cout<<fg_white<<"\n\n\nPress Any Key To Continue\n\n"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Fight Block 2A, In The Woods
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
         fgt.Start(PC, BlackSpider, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\n\nPress Any Key To Continue"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Story Block 6A, Through Woods
 if(PC.Alive){
 cout<<"You continue on your journey and a couple of hours later you break the woods."<<endl;
@@ -92,15 +106,17 @@ cout<<"You decide that the forest is to dark for your liking and decide to go ar
 cout<<"After walking for about an hour you trip on something and land square on your"<<endl;
 cout<<"face.'Oh My God!' you declare, 'It`s a Rock Monster!' "<<endl;
 cout<<fg_white<<"\n\n\nPress Any Key To Continue"<<fg_cyan;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 1, Fight Block 2b, Outside The Woods
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
         fgt.Start(PC, RockMonster, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\n\nPress Any Key To Continue"<<fg_cyan;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 1, Story Block 6B, Around Woods
 if(PC.Alive){
 cout<<"You continue on your way and decide to set up camp outside the Forsaken Cave."<<endl;
@@ -109,50 +125,57 @@ cout<<"pitch your tent set a fire and go to sleep."<<endl;
 //Quest 1, Story Block 7, In The Cave
 if(PC.Alive){
 cout<<fg_white<<"\n\nPress Any Key To Continue... "<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 cout<<clr;
 cout<<"You enter the cave and you feel as if the air has turned to ice. As you continue"<<endl;
 cout<<"through the cave a demon jumps out and swings its claws towards you. You"<<endl;
 cout<<"backstep just in time and are pitched in battle."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue... \n\n"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Fight Block 3
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
         fgt.Start(PC, Demon, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 //Quest 1, Story Block 8
 cout<<fg_white<<"\n\nPress Any Key To Continue... \n\n"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 if(PC.Alive){
 cout<<clr;
 cout<<"You continue you continue into the cave, sweat pouring down your face, despite"<<endl;
 cout<<"the cold air, when you see a luminent blue glow coming from a little farther"<<endl;
 cout<<"down the tunnel."<<endl;
 cout<<fg_white<<"\n\n\nPress Any Key To Continue... "<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 cout<<"  'Finally!', you say to no one in particular. Suddenly the blue glow starts to"<<endl;
 cout<<"move towards you. 'Oh Shit!' you exclaim, as the biggest Demonic creature you`ve"<<endl;
 cout<<"ever seen steps into view."<<endl;
 cout<<fg_white<<"\n\n\nPress Any Key To Continue... "<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Final Fight Block
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(KBattle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
         DemonLord.LvlChg(PC.level +1);
         fgt.Start(PC, DemonLord, true);
-        FMUSIC_StopSong(KBattle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        kBattleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue... "<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Story Block 9
 if(PC.Alive){
 cout<<clr;
 cout<<"You kill the vile Demon Lord, take the mana stone, and raise your hand"<<endl;
 cout<<"victoriously. Then you head back home."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue... \n\n"<<fg_cyan;
-_getche();
+std::fflush(stdin);
+std::getchar();
 //Quest 1, Final Story Block
 cout<<"When you reach your house the old wizard is waiting for you with bloodshot eyes.\nAs you come up the walk the old wizard looks at you with eyes the size of dinner\nplates 'Did you get it?' he asks hopefully."<<endl;
 cout<<fg_blue<<"What do you say? (Y)es ... or (S)orry ..."<<fg_white;
@@ -167,7 +190,7 @@ PC.Alive = false;
 }
 else{
 cout<<"'Yes I found your magical stone' you say. 'Oh Thank you!' says the Wizard, 'Here"<<endl;
-cout<<"is your reward.' He hands you º"<<fg_yellow<<"5,000"<<fg_cyan<<" and three potions in exchange for"<<endl;
+cout<<"is your reward.' He hands you ï¿½"<<fg_yellow<<"5,000"<<fg_cyan<<" and three potions in exchange for"<<endl;
 cout<<"his stone"<<endl;
 PC.Potions+=3;
 PC.Gold+=5000;
@@ -191,20 +214,22 @@ void Quest2(Player &PC)
 
 
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, 0, false, &questChannel);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 2, Story Block 1
 cout<<"After breakfast you step out side to get some fresh air. When you close your"<<endl;
 cout<<"door you see a knife in it. The knife holds a note to your door. You rip the"<<endl;
 cout<<"note off the door, the note reads:"<<endl;
 cout<<fg_white<<"   We Have your best friend and if you ever want to see her again you\n"<<endl;
-cout<<"   need to bring º30000 to the spires reach castle by the next full moon.\n"<<fg_cyan<<endl;
-cout<<"'º30,000! how will I ever get that much?' You scream after reading the ransom"<<endl;
+cout<<"   need to bring ï¿½30000 to the spires reach castle by the next full moon.\n"<<fg_cyan<<endl;
+cout<<"'ï¿½30,000! how will I ever get that much?' You scream after reading the ransom"<<endl;
 cout<<"note."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 2, Story Block 2
 cout<<clr;
 cout<<"You pick up your sword and take off down the path at break neck speed towards"<<endl;
@@ -212,15 +237,17 @@ cout<<"Spires Reach Castle. As you are running, you suddenly find yourself getti
 cout<<"out of the dirt and staring right at a High Demon. It raises it`s trident and"<<endl;
 cout<<"you are forced into battle!"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+std::fflush(stdin);
+  std::getchar();
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, 0, false, &battleChannel);
 Demon.LvlChg(PC.level);
 fgt.Start(PC, Demon, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 cout<<clr;
 if(PC.Alive){
 //Quest 2, Story Block 3
@@ -230,51 +257,57 @@ cout<<"You feel refreshed after camping the last night.";
 PC.HP=PC.HPMax;
 PC.MP=PC.MPMax;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 2, Story Block 4
 cout<<"You enter the castle and as you get to the top a larg Manticore stands in your"<<endl;
 cout<<"way and raises its weapon with a hateful smirk."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+  std::getchar();
 //Quest 2, Fight Block 2
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, 0, false, &battleChannel);
 Manticore.LvlChg(PC.level);
 fgt.Start(PC, Manticore, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 if(PC.Alive){
 //Quest 2, Story Block 5
 cout<<"After killing the Manticore you head into the back room to find your friend. You"<<endl;
 cout<<"see her hanging in chains on the wall you see a large Lizardman standing with"<<endl;
 cout<<"his sword in his hand waiting for you."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 2, Fight Block 3
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, 0, false, &battleChannel);
 Lizardman.LvlChg(PC.level +1);
 fgt.Start(PC, Lizardman, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 if(PC.Alive){
 //Quest 2, Story Block 6
 cout<<"You free your best friend and make for the door just as a gel troop stands in"<<endl;
 cout<<"your way"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 2, Final Fight Block
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, 0, false, &battleChannel);
 GelTroop.LvlChg(PC.level);
 fgt.Start(PC, GelTroop, true);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 if(PC.Alive){
 //Quest 2, Final Story Block
 cout<<"You take your friend and head outside. You run home just as fast as you can go."<<endl;
@@ -296,10 +329,11 @@ void Quest3(Player &PC)
   SatyrCaptain.Load("Mons/SatyrCaptain");
   SatyrCmdr.Load("Mons/SatyrCmdr");
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, 0, false, &battleChannel);
 cout<<fg_white<<"\n\nPress Any Key To Continue..."<<fg_cyan;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<clr;
 //Quest 3, Story Block 1
 cout<<"During breakfast you take the time to stretch your neck suddenly you realizes in"<<endl;
@@ -311,7 +345,8 @@ cout<<"animal you can tell it's a mount of the King's Impearial Guard. Your fear
 cout<<"to dismay as you watch straws, the last remenants of your roof, fall from the"<<endl;
 cout<<"talons of the flying beast. "<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Story Block 2
 cout<<"The dragon rider approaches you on the back of his powerful steed and speaks."<<endl;
 cout<<"'Sorry `bout your roof but His Majesty demands your presence immediatly and we"<<endl;
@@ -321,7 +356,8 @@ cout<<"force you are almost knocked off.  Only your skill keeps you upright and 
 cout<<"the guard give a wicked smile. You then realize that not everyone is happy with"<<endl;
 cout<<"you being summoned to see the King."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Story Block 3
 cout<<"When you arrive you notice that the castle is especially busy for this early in"<<endl;
 cout<<"the morning and are shocked to see both the King and the Queen standing in their"<<endl;
@@ -332,7 +368,8 @@ cout<<"down in song and story for if it were to escape out to my enemies I would
 cout<<"all I have accomplished. Two days ago my son, and only heir, went out with his"<<endl;
 cout<<"friends on a hunting party and never returned.'"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Story Block 4
 cout<<"'Forgive me for being blunt but I do not belive my son still breaths on this"<<endl;
 cout<<"world.'  At this the Queen burst into tears and is taken away by her ladies in"<<endl;
@@ -344,7 +381,8 @@ cout<<"remove his organs and send his head home on a pike.  I need you to travel
 cout<<"these satyrs and take my daughter's love back!  My daughter will accompany you"<<endl;
 cout<<"she is a skilled Magus and may be useful.'"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Story Block 5
 cout<<"At this a young girl steps out of thin air.  She is about 15 years of age and"<<endl;
 cout<<"looks far too choatic to be the powerful Magus you know that she is.  Putting"<<endl;
@@ -356,13 +394,14 @@ cout<<"large black dragons!  Rachel running off to left is soon gone from your s
 cout<<"to your horror a black dragon follows after her.  You try to stop it but the"<<endl;
 cout<<"other one is upon you with lightning speed."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Fight Block 1
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(KBattle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
 fgt.Start(PC, BlackDragon, false);
-        FMUSIC_StopSong(KBattle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        kBattleChannel->stop();
+        questChannel->setPaused(false);
 
 if(PC.Alive){
 //Quest 3, Story Block 6
@@ -375,7 +414,8 @@ cout<<"Rachel puts a single magically potent hand upon your shoulder to ease you
 cout<<"rather obvious distress and it takes all of your training just to keep from"<<endl;
 cout<<"shuddering away."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Story Block 7
 cout<<"as you travel along, your eyes dart back and forth from the gloom ahead to the"<<endl;
 cout<<"young Magus at your side.  Finally as though the forest had read your thoughts,"<<endl;
@@ -384,10 +424,11 @@ cout<<"the entrance so they can't catch you all at once, and I'll go get Charles
 cout<<"With that she vanishes and you take your position at the mouth of the cave just"<<endl;
 cout<<"as the first guard runs up."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Fight Block 2
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 Satyr.LvlChg(PC.level);
 fgt.Start(PC, Satyr, false);
 if(PC.Alive){
@@ -405,11 +446,12 @@ fgt.Start(PC, SatyrCaptain, false);
 if(PC.Alive){
 SatyrCaptain.LvlChg(PC.level +2);
 fgt.Start(PC, SatyrCaptain, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<clr;
 //Quest 3, Story Block 8
 if(PC.Alive){
@@ -419,14 +461,15 @@ cout<<"an easy match, but your training, and this man`s absence of fear tells yo
 cout<<"this is the Magic user of the clan! Lifting his hands he casts a spell and a"<<endl;
 cout<<"mirror image of you decends upon you, sword in hand."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 3, Final Fight Block
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(KBattle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
 Clone.Init(PC.Name, true, PC.HPMax, PC.MPMax, 1, 300, PC.Potions, PC.Ethers, PC.XP, (float)PC.MaxAtt, 1, 70);
 fgt.Start(PC, Clone, false);
-        FMUSIC_StopSong(KBattle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        kBattleChannel->stop();
+        questChannel->setPaused(false);
 }
 if(PC.Alive){
 //Quest 3, Final Story Block
@@ -438,7 +481,7 @@ cout<<"Although I can never begin to repay you maybe this will help.'\n"<<endl;
 cout<<fg_yellow<<"Received King's Reward!\n"<<fg_white<<endl;
 cout<<"You got:\n\n"<<endl;
 cout<<"Plus one to your Windslash level"<<endl;
-cout<<"º"<<fg_yellow<<"30,000"<<fg_cyan<<endl;
+cout<<"ï¿½"<<fg_yellow<<"30,000"<<fg_cyan<<endl;
 PC.Gold+=10000;
 PC.Magic.windslash++;
 }}}}}}}}
@@ -449,41 +492,44 @@ void Quest4(Player &PC)
 {
     Combat fgt;
     fgt.Randomize();
-    mastermind MasterM;
+    Mastermind MasterM;
     Monster Imp;
     Imp.Load("Mons/Imp");
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, channelGroup, false, &questChannel);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<clr<<fg_cyan;
 cout<<"After Breakfast, an Imp enters your home and gives you a puzzel. 'Finish this"<<endl;
 cout<<"puzzel or die' says the hellish Imp. You look at the puzzel in dismay you read"<<endl;
 cout<<"the cover and discover that it is called 'MASTERMIND'."<<endl;
 cout<<"'Hmm' you say 'Lets see....'"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan;
-_getch();
-FMUSIC_PlaySong(pop);
-FMUSIC_SetPaused(Quest, TRUE);
-if(MasterM.Start()){
-FMUSIC_StopSong(pop);
-FMUSIC_SetPaused(Quest, FALSE);
-cout<<"So you got it eh says the Imp. Well I'm true to my word and shall let you live"<<endl;
-cout<<"I'll also give you a prize! he waves his hands and you feel a tingle then he"<<endl;
-cout<<"turns and leaves."<<endl;
-PC.MPMax+=15;
-PC.MP=PC.MPMax;
-PC.HPMax+=15;
-PC.HP=PC.HPMax;
+std::fflush(stdin);
+std::getchar();
+soundSystem->playSound(pop, channelGroup, false, &popChannel);
+questChannel->setPaused(true);
+if(MasterM.Start())
+{
+	popChannel->stop();
+	questChannel->setPaused(false);
+	cout<<"So you got it eh says the Imp. Well I'm true to my word and shall let you live"<<endl;
+	cout<<"I'll also give you a prize! he waves his hands and you feel a tingle then he"<<endl;
+	cout<<"turns and leaves."<<endl;
+	PC.MPMax+=15;
+	PC.MP=PC.MPMax;
+	PC.HPMax+=15;
+	PC.HP=PC.HPMax;
 }
 else{
-     FMUSIC_StopSong(pop);
-     FMUSIC_PlaySong(KBattle);
+     popChannel->stop();
+     soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
 cout<<"you got it wrong and I'm true to my word so now you die chuckles the imp"<<endl;
            fgt.Start(PC, Imp, false);
-     FMUSIC_StopSong(KBattle);
-     FMUSIC_SetPaused(Quest, FALSE);
+     kBattleChannel->stop();
+     questChannel->setPaused(false);
 if(PC.Alive){
 cout<<"After a long and grueling battle you finally smite the hellish creature that"<<endl;
 cout<<"slightly resembled an elf. You kick its corpse into the street and commence to"<<endl;
@@ -511,28 +557,31 @@ void Quest5(Player &PC)
      Commander.Load("mons/Commander");
      DragonSlayer.Load("mons/DragonSlayer");
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, channelGroup, false, &questChannel);
 //Quest 5, Story Block 1
 cout<<"After Breakfast, you step outside to get somefresh air while taking a walk you"<<endl;
 cout<<"see the Warlocks daughter Marie you wave politely and continue on your way."<<endl;
 cout<<"As you are walking you pass a post and a poster catches your eye. You walk over"<<endl;
 cout<<"and take a look."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 5, Story Block 2
 cout<<clr<<"\n\n\n\n\n";
 cout<<fg_white<<"                   All Welcome At The Tournament Of Campions"<<endl;
 cout<<"To be held at the King`s Colosseum on the third Saturday of March' "<<fg_cyan<<endl;
 cout<<"\n\n\n'Hey that`s tommorow' you say 'I better get ready!'"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 5, Story Block 3
 cout<<"The next day at high noon you stand at the entrance to the Kings Colosseum your hand rested o n the hilt of your sword over your shoulder."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<"A small stocky man walks over to you and says:"<<endl;
-	if(PC.Gender=="Male")
+	if(strcmp(PC.Gender, "Male") == 0)
 	{
 	cout<<"'Right this way sir will you be entering the tournament? Well I suppose you"<<endl;
 	cout<<"wouldn`t have your sword if you weren`t. Well go on through the door on the"<<endl;
@@ -546,74 +595,82 @@ cout<<"A small stocky man walks over to you and says:"<<endl;
 	cout<<"through the door on the right.'"<<endl;
 	}
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 5, Fight Block, Tournament
 cout<<"You enter the door and draw your sword preparing for the battle ahead"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+std::fflush(stdin);
+std::getchar();
+		questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 FatGuy.LvlChg(PC.level);
 fgt.Start(PC, FatGuy, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 if(PC.HP>0){
 cout<<"The crowd cheers you on as you exit the arena"<<endl;
 PC.HP=PC.HPMax;
 PC.MP=PC.MPMax;
 cout<<"You prepare for your next bout and step into the arena"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+std::fflush(stdin);
+std::getchar();
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 Soldier.LvlChg(PC.level);
 fgt.Start(PC, Soldier, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 if(PC.HP>0){
 cout<<"The crowd cheers you on as you exit the arena"<<endl;
 PC.HP=PC.HPMax;
 PC.MP=PC.MPMax;
 cout<<"You prepare for your next bout and step into the arena"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+std::fflush(stdin);
+std::getchar();
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 Commander.LvlChg(PC.level);
 fgt.Start(PC, Commander, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 if(PC.HP>0){
 cout<<"The crowd cheers you on as you exit the arena"<<endl;
 PC.HP=PC.HPMax;
 PC.MP=PC.MPMax;
 cout<<"You prepare for your next bout and step into the arena"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(KBattle);
+std::fflush(stdin);
+std::getchar();
+        questChannel->setPaused(true);
+        soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
 DragonSlayer.LvlChg(PC.level +1);
 fgt.Start(PC, DragonSlayer, false);
-        FMUSIC_StopSong(KBattle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        kBattleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 if(PC.HP>0){
 //Quest 5, Story Block 4
 cout<<"As you pull your sword from the Dragon slayers chest the crowd begins to throw"<<endl;
 cout<<"flowers as you wipe your blade cleen and exit the arena. As you're walking out"<<endl;
 cout<<"of the colosseum, the same stockey man walks up to you and says 'Oh so ya` won"<<endl;
 cout<<"eh, well heres your reward!'"<<endl;
-if(PC.Gender=="Female"){
-cout<<"'Here's º"<<fg_yellow<<"15,000"<<fg_cyan<<"'"<<endl;
+if(strcmp(PC.Gender, "Female") == 0){
+cout<<"'Here's ï¿½"<<fg_yellow<<"15,000"<<fg_cyan<<"'"<<endl;
 PC.Gold+=15000;
 }
 else{
-cout<<"'Here's º"<<fg_yellow<<"10,000"<<fg_cyan<<"'"<<endl;
+cout<<"'Here's ï¿½"<<fg_yellow<<"10,000"<<fg_cyan<<"'"<<endl;
 PC.Gold+=10000;
 }
 cout<<"You accept the money and leave the colosseum."<<endl;
@@ -650,8 +707,8 @@ void Quest6(Player &PC)
      PapaSam.Load("mons/PapaSam");
      UncleSam.Load("mons/UncleSam");
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, channelGroup, false, &questChannel);
 if(Shop)
 {
 //Quest 6, Story Block 1A
@@ -661,16 +718,18 @@ cout<<"Jenny see's you entering the lounge, she stands up and runs to you with a
 cout<<"smile on her face. Just before she reaches you, a stranger cuts in front of her"<<endl;
 cout<<"with a knife!"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Fight Block 1A
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 PapaSam.LvlChg(PC.level);
 fgt.Start(PC, PapaSam, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 }
 else if(!Shop)
 {
@@ -681,16 +740,18 @@ cout<<"you entering the lounge, and stands up. She runs towards you with a big s
 cout<<"on her face. However just before she reaches you a stranger cuts in front of her";
 cout<<"with a knife!"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Fight Block 1A
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 PapaSam.LvlChg(PC.level);
 fgt.Start(PC, PapaSam, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 }
 if(PC.HP>0)
 {
@@ -700,7 +761,8 @@ cout<<"workers, and take Jenny into the nearest forest, where Uncle Sam and his 
 cout<<"lose sight of you. As you get deeper into the forest you hear a rustling in some";
 cout<<"nearby bushes."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Story Block 3
 cout<<"You walk toward to the rustling bushes, and when you arrive, you discover a"<<endl;
 cout<<"small wolf cub. 'Seems like this little one is lost.' says Jenny. you disagree"<<endl;
@@ -708,24 +770,27 @@ cout<<"stating that its probably waiting for its mother and start to move on. Ho
 cout<<"when you yo walk away, it starts following you. You sigh as Jenny bends down to"<<endl;
 cout<<"pick up the small cub, She decides to name him Evee."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Story Block 4
 cout<<"You and your friends decide to move on. After travelling for a bit Evee starts"<<endl;
 cout<<"howling. When you look up, you realize that there are enemies in front of you."<<endl;
 cout<<"  OH! damn, it's Uncle Sam!"<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Story Block 5
 cout<<"As Uncle Sam moves closer and closer to you and your friends, Evee starts to"<<endl;
 cout<<"growl. Suddenly, Evee runs up to Uncle Sam and snaps him on his leg."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 //Quest 6, Fight Block 1A
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 fgt.Start(Evee, UncleSam, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 if(Evee.HP>0){
 cout<<"After Evee defeats Uncle Sam You head deeper into the forest.  A few hours later";
 cout<<"you break the woods and see a large village.  You and your friends head towards"<<endl;
@@ -734,27 +799,30 @@ cout<<"been to.  You walk down the main street and see a store with tons of equi
 cout<<"however you are all to tired to stop in and instead, you and your friends head"<<endl;
 cout<<"the Inn to get some rest."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<"The next day you and your group decide to explore the town a bit, and walk down"<<endl;
 cout<<"a little street. A small girl comes running toward you and gives some flowers,"<<endl;
 cout<<"and you stand and talk a little.  Suddenly there's a huge explosion off to the"<<endl;
 cout<<"west. You tell the little girl to go home, and tell Jenny to head back to the"<<endl;
 cout<<"inn while you go and check out the explosion site."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
+std::fflush(stdin);
+std::getchar();
 cout<<"You arrive to find a very odd site. There is a destroyed statue with some"<<endl;
 cout<<"strange markings nearby, and surrounding the shattered statue are several"<<endl;
 cout<<"charred bodies.  Suddenly you hear the sound of large wings coming from a large"<<endl;
 cout<<"tree. Stepping out from behind the tree is a huge winged monster with red eyes."<<endl;
 cout<<"The beast flys towards you with angry eyes growing redder and redder."<<endl;
 cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-_getch();
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(KBattle);
+std::fflush(stdin);
+std::getchar();
+        questChannel->setPaused(true);
+        soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
 RedDragon.LvlChg(3);
 fgt.Start(PC, RedDragon, false);
-        FMUSIC_StopSong(KBattle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        kBattleChannel->stop();
+        questChannel->setPaused(false);
 if(PC.HP>0){
 cout<<"You fall to the ground tired and Evee approaches you, suddenly a large wolf pack";
 cout<<"bounds out of the forest. Evee begins to run towards them but stops half way."<<endl;
@@ -763,12 +831,12 @@ cout<<"yourself off, head back to the inn to get Jenny, and return home."<<endl;
 }
 }
 else{
-        FMUSIC_SetPaused(Quest, TRUE);
-        FMUSIC_PlaySong(Battle);
+        questChannel->setPaused(true);
+        soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
 UncleSam.LvlChg(PC.level);
 fgt.Start(PC, UncleSam, false);
-        FMUSIC_StopSong(Battle);
-        FMUSIC_SetPaused(Quest, FALSE);
+        battleChannel->stop();
+        questChannel->setPaused(false);
 if(PC.HP>0){
 cout<<"You run to Evee and try to help him out, however you are too late to save him."<<endl;
 cout<<"You lost Evee, and you get really angry.  Saddened you slowly make your way"<<endl;
@@ -794,8 +862,8 @@ void Quest7(Player &PC)
      ArmedMugger.Load("mons/ArmedMugger");
 
 
-FMUSIC_StopAllSongs();
-FMUSIC_PlaySong(Quest);
+musicGroup->stop();
+soundSystem->playSound(Quest, channelGroup, false, &questChannel);
 
 string cont;
 //opening
@@ -810,12 +878,12 @@ cin>>cont;
 	 		//around warlock
 	 		if((cont[0]=='D')||(cont[0]=='d')){
 	 		cout<<"You decide to change course and take the longer way through a dark ally.  Halfway through you feel a sharp prod on your lower back. 'Gimmie all yer money!' Declares the mugger.  You turn around and back hand him where you thought his head should be, but you strike the solid steel of a breatsplate.  You look up to find that the burly man is over seven feet tall."<<endl;
-                 FMUSIC_SetPaused(Quest, TRUE);
-                 FMUSIC_PlaySong(Battle);
+                 questChannel->setPaused(true);
+                 soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
                  ArmedMugger.LvlChg(PC.level);
                  fgt.Start(PC, ArmedMugger, false);
-                 FMUSIC_StopSong(Battle);
-                 FMUSIC_SetPaused(Quest, FALSE);
+                 battleChannel->stop();
+                 questChannel->setPaused(false);
 	 			if(PC.HP>0){
 	 			cout<<"The mugger crumples in pain and you kick him out of your way and continue through the ally.";
 	 			}
@@ -831,12 +899,12 @@ cin>>cont;
 	 	cin>>cont;
             cont[0] = toupper(cont[0]);
 	 		if(cont[0]=='y'){
-	 		cout<<"(A) Ale             º100"<<endl;
-	 		cout<<"(B) Sandwich        º200"<<endl;
-	 		cout<<"(C) Hot Meal        º500"<<endl;
-	 		cout<<"(D) Dinner plate    º700"<<endl;
-	 		cout<<"(E) Hotplate&Wine   º900"<<endl;
-	 		cout<<"(F) Buffet Table   º1500"<<endl;
+	 		cout<<"(A) Ale             ï¿½100"<<endl;
+	 		cout<<"(B) Sandwich        ï¿½200"<<endl;
+	 		cout<<"(C) Hot Meal        ï¿½500"<<endl;
+	 		cout<<"(D) Dinner plate    ï¿½700"<<endl;
+	 		cout<<"(E) Hotplate&Wine   ï¿½900"<<endl;
+	 		cout<<"(F) Buffet Table   ï¿½1500"<<endl;
 	 		cout<<"(G) Never Mind"<<endl;
 	 		cout<<"wich one do you order?";
 	 		cin>>cont;
@@ -874,18 +942,18 @@ cin>>cont;
 	 			cout<<"You decide not to eat anything"<<endl;
 	 			}
 	 			else{
-	 			cout<<"not enough º"<<endl;
+	 			cout<<"not enough ï¿½"<<endl;
 	 			}
 	 			}
 	 			cout<<"After you order and eat, you leave the tavern and begin to head home.  As you are at the door a giant Troll attacks you."<<endl;
-	 			   FMUSIC_SetPaused(Quest, TRUE);
-                   FMUSIC_PlaySong(Battle);
+	 			   questChannel->setPaused(true);
+                   soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
                  Troll.LvlChg(PC.level -5);
                  fgt.Start(PC, Troll, false);
-                   FMUSIC_StopSong(Battle);
-                   FMUSIC_SetPaused(Quest, FALSE);
+                   battleChannel->stop();
+                   questChannel->setPaused(false);
 	 			if(PC.HP>0){
-	 			cout<<"After dispatching the Troll you start to continue on your way, when a glint catches your eye. Thinking it maybe gold you bend down to pick it up. instead you discover an od crest (¤)."<<endl;
+	 			cout<<"After dispatching the Troll you start to continue on your way, when a glint catches your eye. Thinking it maybe gold you bend down to pick it up. instead you discover an od crest (ï¿½)."<<endl;
 	 			cout<<"Who will you take it to?"<<endl;
 	 			}
 
@@ -897,14 +965,14 @@ cin>>cont;
 	 	else if((cont[0]=='H')||(cont[0]=='h')){
 	 		//home
 	 		cout<<"You decide not to leave the house but rather to eat at home. You fix a sandwich and get a mug of water. You sit down on your bench and eat your sandwich but before you can get a taste of the water a troll bashes through your door, for no reason whatsoever except, to club you to death!"<<endl;
-	 			   FMUSIC_SetPaused(Quest, TRUE);
-                   FMUSIC_PlaySong(Battle);
+	 			   questChannel->setPaused(true);
+                   soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
                   Troll.LvlChg(PC.level -5);
                   fgt.Start(PC, Troll, false);
-                   FMUSIC_StopSong(Battle);
-                   FMUSIC_SetPaused(Quest, FALSE);
+                   battleChannel->stop();
+                   questChannel->setPaused(false);
 	 			if (PC.HP>0){
-	 			cout<<"After defeating the Troll you begin to clean up the mess. Yuk you say as you pick up the Troll's arm and throw it out the door. As you are dragging the body to the door he drops a this crest (¤). who do you want to take it to?"<<endl;
+	 			cout<<"After defeating the Troll you begin to clean up the mess. Yuk you say as you pick up the Troll's arm and throw it out the door. As you are dragging the body to the door he drops a this crest (ï¿½). who do you want to take it to?"<<endl;
 	 			} }
 	 	cout<<"Old (W)arlock or (M)arie? ";
 	 	cin>>cont;
@@ -921,40 +989,41 @@ cin>>cont;
 	 				}
 	 			if(PC.HP>0){
 	 			cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-				_getch();
+				std::fflush(stdin);
+std::getchar();
 	 			cout<<"You figure its time to start your quest. you run out towards the Dark Ones Tower."<<endl;
 	 			cout<<"When you finally reach the tower after an uneventul trip you find an extremely large gaurd patroling the tower's gate as you aproach he draws his sword."<<endl;
-				cout<<"What do you do (A)ttack the gaurd or (F)lash (¤) coin at him? ";
+				cout<<"What do you do (A)ttack the gaurd or (F)lash (ï¿½) coin at him? ";
 	 			cin>>cont;
 	 				if((cont[0]=='A')||(cont[0]=='a'))
 	 				//Attack
 	 				cout<<"you jump in swinging your sword!"<<endl;
-	 				   FMUSIC_SetPaused(Quest, TRUE);
-                       FMUSIC_PlaySong(Battle);
+	 				   questChannel->setPaused(true);
+                       soundSystem->playSound(Battle, channelGroup, false, &battleChannel);
                       BulkyGuard.LvlChg(PC.level);
                       fgt.Start(PC, BulkyGuard, false);
-                       FMUSIC_StopSong(Battle);
-                       FMUSIC_SetPaused(Quest, FALSE);
+                       battleChannel->stop();
+                       questChannel->setPaused(false);
 	 			 	}
 	 			 	else{// if((cont[0]=='F')||(cont[0]=='f')){
 	 			 	cout<<"You flash the gaurd the crest and he waves you in."<<endl;
 	 				}
 	 			if(PC.HP>0){
 	 			cout<<"You enter the tower and run straight towards the top when you blast through the door an old man spins around and hurls a large ball of flame at you. You dodge and are pitched in a new type of battle!"<<endl;
-	 			     FMUSIC_SetPaused(Quest, TRUE);
-                     FMUSIC_PlaySong(KBattle);
+	 			     questChannel->setPaused(true);
+                     soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
                    Azurith.LvlChg(PC.level +1);
                   fgt.Start(PC, Azurith, false);
-                     FMUSIC_StopSong(KBattle);
-                     FMUSIC_SetPaused(Quest, FALSE);
+                     kBattleChannel->stop();
+                     questChannel->setPaused(false);
 	 			if(PC.HP>0){
 	 				cout<<"After a grueling you emerge from the tower victoriously. as you stumble away you are shocked to see the wizards apprentice. You will die! h exclaims."<<endl;
-	 				   FMUSIC_SetPaused(Quest, TRUE);
-                       FMUSIC_PlaySong(KBattle);
+	 				   questChannel->setPaused(true);
+                       soundSystem->playSound(KBattle, channelGroup, false, &kBattleChannel);
                       Ricker.LvlChg(PC.level);
                       fgt.Start(PC, Ricker, false);
-                       FMUSIC_StopSong(KBattle);
-                       FMUSIC_SetPaused(Quest, FALSE);
+                       kBattleChannel->stop();
+                       questChannel->setPaused(false);
 	 				 	if(PC.HP>0){
 	 				 	cout<<"After another grueling battle with another wizard you straggle home, Mission accomplished, for some much needed rest."<<endl;
 	 				 	}
@@ -999,19 +1068,19 @@ cout<<"and smile at your close friend Marie, the Warlock`s daughter.\n"<<endl;
 if(PC.HP>0){
 char no;
 do{
-cout<<"("<<fg_white<<"A"<<fg_cyan<<")   Potion                º"<<fg_yellow<<"50"<<fg_cyan<<endl;
-cout<<"("<<fg_white<<"B"<<fg_cyan<<")   Blade Sharpening      º"<<fg_yellow<<"1000"<<fg_cyan<<endl;
-cout<<"("<<fg_white<<"C"<<fg_cyan<<")   Exercise              º"<<fg_yellow<<"5000"<<fg_cyan<<endl;
-cout<<"("<<fg_white<<"D"<<fg_cyan<<")   Ether                 º"<<fg_yellow<<"100"<<fg_cyan<<endl;
-cout<<"("<<fg_white<<"E"<<fg_cyan<<")   Mana Meditation       º"<<fg_yellow<<"5000"<<fg_cyan<<endl;
-cout<<"("<<fg_white<<"F"<<fg_cyan<<")   Spells                ºN/A\n"<<endl;
+cout<<"("<<fg_white<<"A"<<fg_cyan<<")   Potion                ï¿½"<<fg_yellow<<"50"<<fg_cyan<<endl;
+cout<<"("<<fg_white<<"B"<<fg_cyan<<")   Blade Sharpening      ï¿½"<<fg_yellow<<"1000"<<fg_cyan<<endl;
+cout<<"("<<fg_white<<"C"<<fg_cyan<<")   Exercise              ï¿½"<<fg_yellow<<"5000"<<fg_cyan<<endl;
+cout<<"("<<fg_white<<"D"<<fg_cyan<<")   Ether                 ï¿½"<<fg_yellow<<"100"<<fg_cyan<<endl;
+cout<<"("<<fg_white<<"E"<<fg_cyan<<")   Mana Meditation       ï¿½"<<fg_yellow<<"5000"<<fg_cyan<<endl;
+cout<<"("<<fg_white<<"F"<<fg_cyan<<")   Spells                ï¿½N/A\n"<<endl;
 cout<<"e("<<fg_white<<"X"<<fg_cyan<<")it the store"<<endl;
 cout<<fg_blue<<"Well, what would you like?("<<fg_yellow<<PC.Gold<<fg_blue<<")"<<fg_white<<endl;
 cin>>choice;
 cout<<fg_cyan;
 if((choice[0]=='a')||(choice[0]=='A')){
 if(PC.Gold>=50){
-cout<<"Potions give back 10 hit points and costs º"<<fg_yellow<<"50"<<fg_cyan<<".  You have º"<<fg_yellow<<PC.Gold<<fg_cyan<<" and currently have "<<fg_white<<PC.Potions<<fg_cyan<<" potions."<<endl;
+cout<<"Potions give back 10 hit points and costs ï¿½"<<fg_yellow<<"50"<<fg_cyan<<".  You have ï¿½"<<fg_yellow<<PC.Gold<<fg_cyan<<" and currently have "<<fg_white<<PC.Potions<<fg_cyan<<" potions."<<endl;
 cout<<"Do you buy(y/n)? ";
 cin>>yes;
 if((yes[0]=='y')||(yes[0]=='Y')){
@@ -1025,8 +1094,8 @@ cout<<"You don't have enough money."<<endl;
 }
 else if((choice[0]=='b')||(choice[0]=='B')){
 if(PC.Gold>=1000){
-cout<<"Blade Sharpening increases your attack by 15 points and costs º1000."<<endl;
-cout<<"You have º"<<fg_yellow<<PC.Gold<<fg_cyan<<" and do "<<fg_white<<PC.MaxAtt<<fg_cyan<<" damage."<<endl;
+cout<<"Blade Sharpening increases your attack by 15 points and costs ï¿½1000."<<endl;
+cout<<"You have ï¿½"<<fg_yellow<<PC.Gold<<fg_cyan<<" and do "<<fg_white<<PC.MaxAtt<<fg_cyan<<" damage."<<endl;
 cout<<"Do you buy(y/n)? ";
 cin>>yes;
 if((yes[0]=='y')||(yes[0]=='Y')){
@@ -1040,7 +1109,7 @@ cout<<"You don't have enough money."<<endl;
 }
 else if((choice[0]=='c')||(choice[0]=='C')){
 if(PC.Gold>=5000){
-cout<<"Exercise toughens your body and raises your max hit points by 15.  It cost º5000.  You have º"<<fg_yellow<<PC.Gold<<fg_cyan<<" and your max HP is "<<PC.HPMax<<endl;
+cout<<"Exercise toughens your body and raises your max hit points by 15.  It cost ï¿½5000.  You have ï¿½"<<fg_yellow<<PC.Gold<<fg_cyan<<" and your max HP is "<<PC.HPMax<<endl;
 cout<<"Do you buy(y/n)? ";
 cin>>yes;
 if((yes[0]=='y')||(yes[0]=='Y')){
@@ -1055,7 +1124,7 @@ cout<<"You don't have enough money."<<endl;
 }
 else if((choice[0]=='d')||(choice[0]=='D')){
 if(PC.Gold>=100){
-cout<<"By infusing a small potion with high concentrations of mana we are capable of\ncreating a potion that can restore 10 Magic Points. It costs º"<<fg_yellow<<"100"<<fg_cyan<<". You have º"<<fg_yellow<<PC.Gold<<fg_cyan<<"and "<<fg_white<<PC.Ethers<<fg_cyan<<" ethers."<<endl;
+cout<<"By infusing a small potion with high concentrations of mana we are capable of\ncreating a potion that can restore 10 Magic Points. It costs ï¿½"<<fg_yellow<<"100"<<fg_cyan<<". You have ï¿½"<<fg_yellow<<PC.Gold<<fg_cyan<<"and "<<fg_white<<PC.Ethers<<fg_cyan<<" ethers."<<endl;
 cout<<"Do you buy(y/n)? ";
 cin>>yes;
 if((yes[0]=='y')||(yes[0]=='Y')){
@@ -1084,16 +1153,16 @@ cout<<"You do not have enough money."<<endl;
 }
 else if((choice[0]=='f')||(choice[0]=='F')) {
 cout<<"We have a wide variety of spells here."<<endl;
-cout<<"("<<fg_white<<"A"<<fg_cyan<<")   Quake     "<<PC.Magic.quake<<"/10         º2500"<<endl;
-cout<<"("<<fg_white<<"B"<<fg_cyan<<")   Fire      "<<PC.Magic.fire<<"/10          º3500"<<endl;
-cout<<"("<<fg_white<<"C"<<fg_cyan<<")   Bolt      "<<PC.Magic.bolt<<"/10          º4500"<<endl;
-cout<<"("<<fg_white<<"D"<<fg_cyan<<")   Ice       "<<PC.Magic.ice<<"/10           º5500"<<endl;
-cout<<"("<<fg_white<<"E"<<fg_cyan<<")   Cure      "<<PC.Magic.cure<<"/30          º2000"<<endl;
-cout<<"("<<fg_white<<"F"<<fg_cyan<<")   Drain     "<<PC.Magic.drain<<"/10         º4000"<<endl;
-cout<<"("<<fg_white<<"G"<<fg_cyan<<")   Rasp      "<<PC.Magic.rasp<<"/10          º5000"<<endl;
-cout<<"("<<fg_white<<"H"<<fg_cyan<<")   Windslash "<<PC.Magic.windslash<<"/15         º6500"<<endl;
-//cout<<"("<<fg_white<<"I"<<fg_cyan<<")   Confusion "<<confusion<<"/30        º10000"<<endl;
-//cout<<"("<<fg_white<<"J"<<fg_cyan<<")   Death    "<<death<<"/100        º20000"<<endl;
+cout<<"("<<fg_white<<"A"<<fg_cyan<<")   Quake     "<<PC.Magic.quake<<"/10         ï¿½2500"<<endl;
+cout<<"("<<fg_white<<"B"<<fg_cyan<<")   Fire      "<<PC.Magic.fire<<"/10          ï¿½3500"<<endl;
+cout<<"("<<fg_white<<"C"<<fg_cyan<<")   Bolt      "<<PC.Magic.bolt<<"/10          ï¿½4500"<<endl;
+cout<<"("<<fg_white<<"D"<<fg_cyan<<")   Ice       "<<PC.Magic.ice<<"/10           ï¿½5500"<<endl;
+cout<<"("<<fg_white<<"E"<<fg_cyan<<")   Cure      "<<PC.Magic.cure<<"/30          ï¿½2000"<<endl;
+cout<<"("<<fg_white<<"F"<<fg_cyan<<")   Drain     "<<PC.Magic.drain<<"/10         ï¿½4000"<<endl;
+cout<<"("<<fg_white<<"G"<<fg_cyan<<")   Rasp      "<<PC.Magic.rasp<<"/10          ï¿½5000"<<endl;
+cout<<"("<<fg_white<<"H"<<fg_cyan<<")   Windslash "<<PC.Magic.windslash<<"/15         ï¿½6500"<<endl;
+//cout<<"("<<fg_white<<"I"<<fg_cyan<<")   Confusion "<<confusion<<"/30        ï¿½10000"<<endl;
+//cout<<"("<<fg_white<<"J"<<fg_cyan<<")   Death    "<<death<<"/100        ï¿½20000"<<endl;
 cout<<"("<<fg_white<<"R"<<fg_cyan<<")eturn to the menu"<<endl;
 cout<<fg_blue<<"Well what do you want? "<<fg_white;
 cin>>choice;
@@ -1271,7 +1340,8 @@ void Interlude(Player &PC)
 	PC.HP=PC.HPMax;
 	PC.MP=PC.MPMax;
 	cout<<fg_white<<"\n\nPress Any Key To Continue\n\n"<<fg_cyan<<endl;
-	_getch();
+	std::fflush(stdin);
+	std::getchar();
 	cout<<"   You consider stopping by the local store.  The old Warlock who owns it is a\nreal grouch but usually it's his daughter who's minding the store and she\nusually lets you in without the intense pain of the search spell the Warlock\nuses to search for theives.\n"<<endl;
 	cout<<fg_blue<<"So will you go? "<<fg_white;
 	cin>>gostore;
@@ -1304,7 +1374,8 @@ void Quest8(Player &PC)
 	cout<<"appearing behind you and removing your sword from your hand. You turn and come"<<endl;
 	cout<<"face to face with a small girl of about 17 years."<<endl;
 	cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-	_getch();
+	std::fflush(stdin);
+	std::getchar();
 	cout<<"She gives you a shy smile and also relieves you of your sack of potions and"<<endl;
 	cout<<"ethers. You scream to yourself that you should resist but your eyes are held"<<endl;
 	cout<<"captive by the young girls beautiful face and shy demeanor Suddenly the girl`s"<<endl;
@@ -1324,7 +1395,8 @@ void Quest8(Player &PC)
 	PC.MP=5;
 
 	cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-	_getch();
+	std::fflush(stdin);
+	std::getchar();
 	//KagosBattle("Kagos", max, a, amax, 100, 30000, 1000, pnum, 30000, level, totalexp, gold, 30000, 30000, gain, m, mcap, num, 20, 10, fire, ice, bolt, cure, drain, rasp, death, quake, confusion, windslash, name);
 	fgt.Start(PC, KagosGirl, false);
 	PC.Ethers=ebag;
@@ -1332,7 +1404,8 @@ void Quest8(Player &PC)
 	PC.MaxAtt=sword;
 	PC.MP=mkeeper;
 	cout<<fg_white<<"\n\nPress Any Key To Continue...\n\n"<<fg_cyan<<endl;
-	_getch();
+	std::fflush(stdin);
+	std::getchar();
 	if(PC.Alive)
 	{
 		cout<<"Kagos writhes and releases a single scream and fades like darkness in the morning light."<<endl;
