@@ -1,0 +1,159 @@
+[Project]
+FileName=Grand Adventure OOP.dev
+Name=Grand Adventure OOP
+UnitCount=11
+Type=1
+Ver=1
+ObjFiles=
+Includes="C:\Documents and Settings\aaron brumfield\Desktop\My Projects\Programming\fmod\api\inc"
+Libs="C:\Documents and Settings\aaron brumfield\Desktop\My Projects\Programming\fmod\api\lib"
+PrivateResource=Grand_Adventure_OOP_private.rc
+ResourceIncludes=
+MakeIncludes=
+Compiler=
+CppCompiler=
+Linker=../../Programming/fmod/api/lib/fmodvc.lib_@@_
+IsCpp=1
+Icon=Grand Adventure OOP.ico
+ExeOutput=GA Release
+ObjectOutput=
+OverrideOutput=1
+OverrideOutputName=Grand Adventure.exe
+HostApplication=
+Folders="Header Files","Source Files"
+CommandLine=
+UseCustomMakefile=0
+CustomMakefile=
+IncludeVersionInfo=1
+SupportXPThemes=0
+CompilerSet=0
+CompilerSettings=0100000000000001000000
+
+[Unit1]
+FileName=main.cpp
+CompileCpp=1
+Folder=Source Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[VersionInfo]
+Major=4
+Minor=8
+Release=0
+Build=24
+LanguageID=1033
+CharsetID=1252
+CompanyName=Omoban Games
+FileVersion=4.8
+FileDescription=The Object Oriented Grand Adventure
+InternalName=GA-OOP
+LegalCopyright=Dragoon
+LegalTrademarks=
+OriginalFilename=Grand Adventure
+ProductName=Grand Adventure
+ProductVersion=4.0
+AutoIncBuildNr=1
+
+[Unit3]
+FileName=Player.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit4]
+FileName=battle.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=lvprandom.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit8]
+FileName=Monster.cpp
+CompileCpp=1
+Folder=Source Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit6]
+FileName=combat.cpp
+CompileCpp=1
+Folder=Source Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit2]
+FileName=Combat.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit7]
+FileName=Player.cpp
+CompileCpp=1
+Folder=Source Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit9]
+FileName=Mastermind.cpp
+CompileCpp=1
+Folder=Source Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit10]
+FileName=Quests.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit11]
+FileName=Room.h
+CompileCpp=1
+Folder=Header Files
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+

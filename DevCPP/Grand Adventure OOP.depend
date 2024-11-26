@@ -1,0 +1,65 @@
+# depslib dependency file v1.0
+1313476562 source:c:\users\alturos\dropbox\public\ga source\monster.cpp
+	"Player.h"
+	<iostream>
+	<fstream>
+	"console.h"
+
+1313476580 c:\users\alturos\dropbox\public\ga source\player.h
+	<string>
+
+1103650370 c:\users\alturos\dropbox\public\ga source\console.h
+	<iostream>
+	<iomanip>
+	<windows.h>
+
+1313476350 source:c:\users\alturos\dropbox\public\ga source\player.cpp
+	"Player.h"
+	<iostream>
+	<fstream>
+	"console.h"
+
+1174279261 source:c:\users\alturos\dropbox\public\ga source\combat.cpp
+	"Combat.h"
+	<iostream>
+	"console.h"
+	<conio.h>
+	<sstream>
+	<string>
+
+1138532640 c:\users\alturos\dropbox\public\ga source\combat.h
+	<stdlib.h>
+	<time.h>
+	"Player.h"
+
+1313476511 source:c:\users\alturos\dropbox\public\ga source\main.cpp
+	<cstdlib>
+	<iostream>
+	<fmod.h>
+	"mastermind.cpp"
+	"console.h"
+	"Combat.h"
+	"Quests.h"
+
+1130515130 c:\users\alturos\dropbox\public\ga source\fmodapi375win\api\inc\fmod.h
+
+1174186257 c:\users\alturos\dropbox\public\ga source\mastermind.cpp
+	<iostream>
+	"console.h"
+	"combat.h"
+	<conio.h>
+	<time.h>
+
+1313476754 c:\users\alturos\dropbox\public\ga source\quests.h
+	<fmod.h>
+	"Combat.h"
+	"Player.h"
+	"Mastermind.cpp"
+
+1174186257 source:c:\users\alturos\dropbox\public\ga source\mastermind.cpp
+	<iostream>
+	"console.h"
+	"combat.h"
+	<conio.h>
+	<time.h>
+

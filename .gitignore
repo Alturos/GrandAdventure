@@ -1,0 +1,4 @@
+*.o
+*.dll
+fmodapi375win/*
+GA Release/Grand Adventure.exe

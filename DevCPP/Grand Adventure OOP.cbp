@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Grand Adventure OOP" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="default">
+				<Option output="GA Release\Grand Adventure" prefix_auto="1" extension_auto="1" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+			</Target>
+		</Build>
+		<Compiler>
+			<Add directory="fmodapi375win\api\inc" />
+		</Compiler>
+		<Linker>
+			<Add library="fmodapi375win\api\lib\fmodvc.lib" />
+			<Add directory="fmodapi375win\api\lib" />
+		</Linker>
+		<Unit filename="Combat.h" />
+		<Unit filename="Mastermind.cpp" />
+		<Unit filename="Monster.cpp" />
+		<Unit filename="Player.cpp" />
+		<Unit filename="Player.h" />
+		<Unit filename="Quests.h" />
+		<Unit filename="Room.h" />
+		<Unit filename="battle.h" />
+		<Unit filename="combat.cpp" />
+		<Unit filename="lvprandom.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
